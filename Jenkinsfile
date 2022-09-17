@@ -7,9 +7,11 @@ pipeline {
                 echo 'Hello World'
             }
         }
-        stage('Hello2') {
+        stage('Build') {
             steps {
-                echo 'Hello World'
+               /opt/maven38/bin/mvn clean package
+                mv target/sparkjava-hello-world-1.0.war target/sparkjava-hello-world-$BUILD_NUMBER.war
+                aws s3 cp target/sparkjava-hello-world-$BUILD_NUMBER.war s3://java-projects-cicd/
             }
         }
         stage('Hello3') {
